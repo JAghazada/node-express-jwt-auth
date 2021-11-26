@@ -1,0 +1,11 @@
+const express= require("express")
+const database = require("./databases/db.helpers")
+const router = require("./routes/authRoutes")
+const app = express()
+app.use(express.static("public"))
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.set("view engine","ejs")
+app.use(router)
+
+app.listen(5000,console.log("Workin : 5000"))

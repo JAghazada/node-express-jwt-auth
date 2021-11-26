@@ -1,0 +1,24 @@
+<%- include('partials/header'); -%>
+
+<form>
+  <h2>Sign up</h2>
+  <label for="email">Email</label>
+  <input type="text" autocomplete="additional-name" name="email"  />
+  <div class="email error"></div>
+  <label for="password">Password</label>
+  <input type="password" autocomplete="additional-name" name="password"  />
+  <div class="password error"></div>
+  <button type="button" class="btn2">Sign up</button>
+</form>
+
+
+<script>
+   const btn = document.querySelector(".btn2")
+  btn.addEventListener("click",(e)=>{
+      e.preventDefault()
+      console.log("object")
+      alert()
+  })
+
+</script>
+<%- include('partials/footer'); -%>
