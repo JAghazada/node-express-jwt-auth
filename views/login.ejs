@@ -1,28 +1,41 @@
 <%- include('partials/header'); -%>
 
-<form action="/signup">
+<form action="/login" method="post" >
   <h2>Login</h2>
   <label for="email">Email</label>
-  <input type="text" name="email" required />
-  <div class="email error">some error</div>
+  <input  id="user-email" type="text"  name="email"  />
+  <div class="email-error error"></div>
   <label for="password">Password</label>
-  <input type="password" name="password" required />
-  <div class="password error"></div>
-  <button>login</button>
+  <input  id="user-password" type="password"  name="password"  />
+  <div  class="password-error password-error error"></div>
+  <button type="button" class="btn-login">login</button>
 </form>
 
 <%- include('partials/footer'); -%>
-
 <script>
-  const form = document.querySelector('form');
+const btn = document.querySelector(".btn-login")
+  
+btn.addEventListener("click",async(e)=>{
+  const email  = document.querySelector("#user-email").value.trim()
+  const password = document.querySelector("#user-password").value.trim()
+  console.log(email,password)
+    e.preventDefault()
+    try {
+      const res =await fetch("/login",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({email,password})
+        
+    })
+    const data = await res.json()
+    console.log(data)
+    if(data.errors){
+      document.querySelector('.email-error').textContent=data.errors.email
+      document.querySelector('.password-error').textContent=data.errors.password
+    }} 
+    catch (error) {
+      console.log(error)
+    }
+})
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    // get values
-    const email = form.email.value;
-    const password = form.password.value;
-
-    console.log(email, password);
-  });
 </script>

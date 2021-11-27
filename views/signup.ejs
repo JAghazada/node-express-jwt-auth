@@ -3,21 +3,40 @@
 <form>
   <h2>Sign up</h2>
   <label for="email">Email</label>
-  <input type="text" autocomplete="additional-name" name="email"  />
-  <div class="email error"></div>
+  <input type="text" id="user-email" autocomplete="additional-name" name="email"  />
+  <div class="email-error error"></div>
   <label for="password">Password</label>
-  <input type="password" autocomplete="additional-name" name="password"  />
-  <div class="password error"></div>
-  <button type="button" class="btn2">Sign up</button>
+  <input type="password" id="user-password" autocomplete="additional-name" name="password"  />
+  <div class="password-error error"></div>
+  <button type="button" class="btn-sign">Sign up</button>
 </form>
 
 
 <script>
-   const btn = document.querySelector(".btn2")
-  btn.addEventListener("click",(e)=>{
+   const btn = document.querySelector(".btn-sign")
+  
+  btn.addEventListener("click",async(e)=>{
+    const email  = document.querySelector("#user-email").value.trim()
+   const password = document.querySelector("#user-password").value.trim()
       e.preventDefault()
-      console.log("object")
-      alert()
+      try {
+        const res =await fetch("/signup",{
+          
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({email,password})
+      
+      })
+      const data = await res.json()
+      console.log(data)
+      if(data.errors){
+        document.querySelector('.email-error').textContent=data.errors.email
+        document.querySelector('.password-error').textContent=data.errors.password
+      }
+
+      } catch (error) {
+        return error
+      }
   })
 
 </script>

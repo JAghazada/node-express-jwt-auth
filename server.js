@@ -1,11 +1,21 @@
+const cookieParser = require("cookie-parser")
 const express= require("express")
 const database = require("./databases/db.helpers")
+const { requireAuth, checkValidUser } = require("./middleware/authControl")
 const router = require("./routes/authRoutes")
 const app = express()
 app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
+
 app.set("view engine","ejs")
 app.use(router)
-
+app.get("/smoothies",requireAuth,(req,res,next)=>{
+    res.render("smoothies")
+})
+app.get("*",checkValidUser)
+app.get("/",(req,res,next)=>{
+    res.render("home")
+})
 app.listen(5000,console.log("Workin : 5000"))
